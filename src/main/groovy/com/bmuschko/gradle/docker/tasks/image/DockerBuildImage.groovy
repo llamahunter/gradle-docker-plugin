@@ -71,11 +71,15 @@ class DockerBuildImage extends AbstractDockerRemoteApiTask {
     @Override
     void runRemoteCommand(dockerClient) {
         logger.quiet "Building image using context '${getInputDir()}'."
-        def buildImageCmd = dockerClient.buildImageCmd(getInputDir())
+        def buildImageCmd
 
         if(getDockerFile()) {
             logger.quiet "Using Dockerfile '${getDockerFile()}'"
-            buildImageCmd.withDockerfile(getDockerFile())
+            buildImageCmd = dockerClient.buildImageCmd()
+            buildImageCmd.withBaseDirectory(getInputDir())
+            buildImageCmd.withDockerFile(getDockerFile())
+        } else {
+            buildImageCmd = dockerClient.buildImageCmd(getInputDir())
         }
 
         if(getTag()) {
