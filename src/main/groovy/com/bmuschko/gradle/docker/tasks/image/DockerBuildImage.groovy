@@ -37,6 +37,7 @@ class DockerBuildImage extends AbstractDockerRemoteApiTask {
      * build context, i.e. "$inputDir/Dockerfile".
      */
     @InputFile
+    @Optional
     File dockerFile
 
     /**
@@ -76,8 +77,8 @@ class DockerBuildImage extends AbstractDockerRemoteApiTask {
         if(getDockerFile()) {
             logger.quiet "Using Dockerfile '${getDockerFile()}'"
             buildImageCmd = dockerClient.buildImageCmd()
-            buildImageCmd.withBaseDirectory(getInputDir())
-            buildImageCmd.withDockerfile(getDockerFile())
+                    .withBaseDirectory(getInputDir())
+                    .withDockerfile(getDockerFile())
         } else {
             buildImageCmd = dockerClient.buildImageCmd(getInputDir())
         }
