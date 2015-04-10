@@ -77,7 +77,7 @@ class DockerBuildImage extends AbstractDockerRemoteApiTask {
             logger.quiet "Using Dockerfile '${getDockerFile()}'"
             buildImageCmd = dockerClient.buildImageCmd()
             buildImageCmd.withBaseDirectory(getInputDir())
-            buildImageCmd.withDockerFile(getDockerFile())
+            buildImageCmd.withDockerfile(getDockerFile())
         } else {
             buildImageCmd = dockerClient.buildImageCmd(getInputDir())
         }
